@@ -1,12 +1,14 @@
 package com.example.kisarisary;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
 public class LaunchActivity extends AppCompatActivity {
+    private int bgImage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -15,7 +17,13 @@ public class LaunchActivity extends AppCompatActivity {
     }
 
     public void launchPaint(View viewSource){
+        //drawingView.putExtra("bgImage",  1);
         Intent drawingView = new Intent(this, MainActivity.class);
+        drawingView.putExtra("bgImage", bgImage);
         startActivity(drawingView);
+    }
+
+    public void setColorfulBackground(View viewSource){
+        this.bgImage = 1;
     }
 }

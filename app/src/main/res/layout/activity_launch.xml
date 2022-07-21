@@ -2,7 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/launchPaint"
+    android:id="@+id/launchMain"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:onClick="launchPaint"
@@ -27,19 +27,12 @@
             android:orientation="horizontal">
 
             <ImageButton
-                android:id="@+id/imageButton2"
-                android:layout_width="293dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                app:srcCompat="@drawable/colorfulwood" />
-
-            <ImageButton
-                android:id="@+id/imageButton3"
+                android:id="@+id/colorfulBg"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                app:srcCompat="@drawable/grass" />
-
+                android:onClick="setColorfulBackground"
+                app:srcCompat="@drawable/colorfulwood" />
         </LinearLayout>
 
         <Button
