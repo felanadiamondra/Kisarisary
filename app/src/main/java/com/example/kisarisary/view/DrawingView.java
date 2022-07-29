@@ -40,12 +40,11 @@ public class DrawingView extends View {
     private int currentColor;
     private int strokeWidth;
     private Bitmap mBitmap;
-    private Canvas mCanvas;
-    private Paint mBitmapPaint = new Paint(Paint.DITHER_FLAG);
     Paint paint = new Paint();
     private int drawingType;
 
     ArrayList<TouchCoordinates> touchC = new ArrayList<TouchCoordinates>();
+    ArrayList<TouchCoordinates> touchCtmp = new ArrayList<TouchCoordinates>();
 
     int startX = -1;
     int startY = -1;
@@ -73,7 +72,6 @@ public class DrawingView extends View {
 
     public void init(int width, int height){
         mBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
-        mCanvas = new Canvas(mBitmap);
         // initial color
         currentColor = Color.GREEN;
         // initial size
@@ -83,8 +81,11 @@ public class DrawingView extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        canvas.drawOval(startX, startY, endX, endY, paint);
+        paint.setStrokeWidth(strokeWidth);
         if(startX !=0 && startY !=0){
+            if(touchCtmp.size() != 0){
+                canvas.drawOval(startX, startY, endX, endY, paint);
+            }
             for(int i=0; i< touchC.size(); i++){
                 switch (touchC.get(i).type){
                     case 1:
@@ -98,7 +99,6 @@ public class DrawingView extends View {
                     default:
                         break;
                 }
-
             }
         }
     }
@@ -119,24 +119,28 @@ public class DrawingView extends View {
         }
         if(event.getAction() == MotionEvent.ACTION_MOVE)
         {
+            TouchCoordinates touchC = new TouchCoordinates(startX, startY, endX, endY, drawingType);
             endX = (int)event.getX();
             endY = (int)event.getY();
+            touchCtmp.add(touchC);
 
             invalidate();
         }
         if (event.getAction() == MotionEvent.ACTION_UP)
         {
+            touchCtmp.clear();
             TouchCoordinates tc= new TouchCoordinates(startX, endX, startY, endY, drawingType);
             touchC.add(tc);
             invalidate();
         }
-
-
-
         return true;
     }
 
     public void setCurrentDrawingType(int dt){
         this.drawingType = dt;
+    }
+
+    public void setCurrentStrokeWidth(int sw){
+        this.strokeWidth = sw;
     }
 }
