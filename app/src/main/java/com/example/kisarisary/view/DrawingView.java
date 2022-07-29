@@ -19,12 +19,14 @@ class TouchCoordinates {
     int rightTop;
     int leftBottom;
     int rightBottom;
+    int type;
 
-    TouchCoordinates(int lt, int rt, int lb, int rb){
+    TouchCoordinates(int lt, int rt, int lb, int rb, int type){
         this.leftTop = lt;
         this.rightTop = rt;
         this.leftBottom = lb;
         this.rightBottom = rb;
+        this.type = type;
     }
 
 
@@ -41,6 +43,7 @@ public class DrawingView extends View {
     private Canvas mCanvas;
     private Paint mBitmapPaint = new Paint(Paint.DITHER_FLAG);
     Paint paint = new Paint();
+    private int drawingType;
 
     ArrayList<TouchCoordinates> touchC = new ArrayList<TouchCoordinates>();
 
@@ -48,6 +51,11 @@ public class DrawingView extends View {
     int startY = -1;
     int endX = -1;
     int endY= -1;
+
+    public static final int DRAWING_TYPE_RECT=1;
+    public static final int DRAWING_TYPE_ELLIPSE=2;
+    public static final int DRAWING_TYPE_LINE=3;
+
     public DrawingView(Context context) {
         super(context);
     }
@@ -75,17 +83,31 @@ public class DrawingView extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        drawRectTemp(canvas);
+        canvas.drawOval(startX, startY, endX, endY, paint);
         if(startX !=0 && startY !=0){
             for(int i=0; i< touchC.size(); i++){
-                paint.setColor(Color.rgb(i*15, i*150, i*84));
-                canvas.drawOval(touchC.get(i).leftTop, touchC.get(i).leftBottom, touchC.get(i).rightTop, touchC.get(i).rightBottom, paint);
+                switch (touchC.get(i).type){
+                    case 1:
+                        paint.setColor(Color.rgb(i*15, i*150, i*84));
+                        canvas.drawRect(touchC.get(i).leftTop, touchC.get(i).leftBottom, touchC.get(i).rightTop, touchC.get(i).rightBottom, paint);
+                        break;
+                    case 2:
+                        paint.setColor(Color.rgb(i*15, i*150, i*84));
+                        canvas.drawOval(touchC.get(i).leftTop, touchC.get(i).leftBottom, touchC.get(i).rightTop, touchC.get(i).rightBottom, paint);
+                        break;
+                    default:
+                        break;
+                }
+
             }
         }
     }
 
-    protected void drawRectTemp(Canvas canvas){
-        canvas.drawOval(startX, startY, endX, endY, paint);
+    public void undo(){
+        if(touchC.size() !=0){
+            touchC.remove(touchC.size() - 1);
+            invalidate();
+        }
     }
 
     @Override
@@ -104,7 +126,7 @@ public class DrawingView extends View {
         }
         if (event.getAction() == MotionEvent.ACTION_UP)
         {
-            TouchCoordinates tc= new TouchCoordinates(startX, endX, startY, endY);
+            TouchCoordinates tc= new TouchCoordinates(startX, endX, startY, endY, drawingType);
             touchC.add(tc);
             invalidate();
         }
@@ -112,5 +134,9 @@ public class DrawingView extends View {
 
 
         return true;
+    }
+
+    public void setCurrentDrawingType(int dt){
+        this.drawingType = dt;
     }
 }
