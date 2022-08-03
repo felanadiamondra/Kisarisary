@@ -75,58 +75,47 @@ public class DrawingView extends View{
             @Nullable AttributeSet attrs)
     {
         super(context, attrs);
+        drawMeth = new DrawMethod(new DrawRect());
+        currentColor = Color.GREEN;
+        strokeWidth  = 5;
+        drawingType = 1;
         paint.setColor(Color.GREEN);
         paint.setStyle(Paint.Style.STROKE);
         paint.setStrokeJoin(Paint.Join.ROUND);
         paint.setStrokeCap(Paint.Cap.ROUND);
-        drawMeth = new DrawMethod(new DrawRect());
-        currentColor = Color.GREEN;
-        strokeWidth  = 5;
+        paint.setStrokeWidth(strokeWidth);
     }
 
 
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        paint.setStrokeWidth(strokeWidth);
         if(startX !=0 && startY !=0){
             drawTmpShape(shapeTmp, canvas);
             for(int i=0; i< shapes.size(); i++){
-                TouchCoordinates tc = shapes.get(i).getTouchC();
-                paint.setStrokeWidth(shapes.get(i).getStrokeWidth());
-                canvas.drawRect(tc.leftTop, tc.leftBottom, tc.rightTop, tc.rightBottom, paint);
-                /* switch (shapes.get(i).getType()){
+                switch (shapes.get(i).getType()){
                     case 1:
-                        paint.setColor(Color.rgb(i*15, i*150, i*84));
-                        canvas.drawRect(touchC.get(i).leftTop, touchC.get(i).leftBottom, touchC.get(i).rightTop, touchC.get(i).rightBottom, paint);
+                        drawMeth = new DrawMethod(new DrawRect());
                         break;
                     case 2:
-                        paint.setColor(Color.rgb(i*15, i*150, i*84));
-                        canvas.drawOval(touchC.get(i).leftTop, touchC.get(i).leftBottom, touchC.get(i).rightTop, touchC.get(i).rightBottom, paint);
+                        drawMeth = new DrawMethod(new DrawEllipse());
                         break;
                     default:
                         break;
-                } */
+                }
+                drawMeth.drawPaintImage(canvas, shapes.get(i), paint);
             }
         }
     }
 
     public void undo(){
-        if(touchC.size() !=0){
-            touchC.remove(touchC.size() - 1);
+        if(shapes.size() !=0){
+            shapes.remove(shapes.size() - 1);
             invalidate();
         }
     }
     protected void drawTmpShape(ArrayList<Shape> shapeTmp, Canvas canvas){
         if(shapeTmp.size() != 0){
-            /*switch (tp){
-                case 1:
-                    meth = new DrawMethod(new DrawRect());
-                case 2:
-                    meth = new DrawMethod(new DrawEllipse());
-                default:
-                    meth = new DrawLine(new DrawLine());
-            }*/
             drawMeth.drawPaintImageTmp(canvas, shapeTmp);
         }
     }
@@ -150,14 +139,6 @@ public class DrawingView extends View{
             endY = (int)event.getY();
             TouchCoordinates touchC = new TouchCoordinates(startX, startY, endX, endY);
             Shape shape = new Shape(touchC , currentColor, strokeWidth, drawingType);
-            switch (drawingType){
-                case 1:
-                    drawMeth = new DrawMethod(new DrawRect());
-                case 2:
-                    drawMeth = new DrawMethod(new DrawEllipse());
-                default:
-                    break;
-            }
             shapeTmp.add(shape);
             invalidate();
         }

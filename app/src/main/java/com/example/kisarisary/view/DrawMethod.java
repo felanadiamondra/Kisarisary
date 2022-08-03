@@ -1,6 +1,7 @@
 package com.example.kisarisary.view;
 
 import android.graphics.Canvas;
+import android.graphics.Paint;
 
 import java.util.ArrayList;
 
@@ -11,9 +12,9 @@ public class DrawMethod {
         this.drawShape = drawShape;
     }
 
-    /*public void drawPaintImage(Canvas canvas, ArrayList<Shape> shape){
-        drawShape.drawPaintImage(canvas, shape);
-    } */
+    public void drawPaintImage(Canvas canvas, Shape shape, Paint paint){
+        drawShape.drawPaintImage(canvas, shape, paint);
+    }
     public void drawPaintImageTmp(Canvas canvas, ArrayList<Shape> shape){
         drawShape.drawImageTemp(canvas, shape);
     }
