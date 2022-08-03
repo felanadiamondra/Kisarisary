@@ -3,8 +3,10 @@ package com.example.kisarisary;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
+import android.app.AlertDialog;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageButton;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -43,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
         ImageButton btnUndo = (ImageButton) findViewById(R.id.btnUndo);
         SeekBar seekbar =  (SeekBar) findViewById(R.id.penSize);
         TextView penSizeValue = (TextView) findViewById(R.id.penSizeValue);
+        TextView text = (TextView) findViewById(R.id.textHere);
 
         seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
@@ -70,6 +73,19 @@ public class MainActivity extends AppCompatActivity {
                 DrawingView.DRAWING_TYPE_ELLIPSE));
 
         btnUndo.setOnClickListener(v -> drawingView.undo());
+
+
+
+    }
+
+    public void btnShowColorDialog(View viewSource){
+        final AlertDialog.Builder alert = new AlertDialog.Builder(MainActivity.this);
+        View mview = getLayoutInflater().inflate(R.layout.custom_color, null);
+        alert.setView(mview);
+        final AlertDialog alertDialog= alert.create();
+        alertDialog.setCanceledOnTouchOutside(true);
+        // alertDialog.dismiss();
+        alertDialog.show();
     }
 
 }

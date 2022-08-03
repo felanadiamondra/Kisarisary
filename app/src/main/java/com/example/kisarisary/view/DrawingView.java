@@ -19,20 +19,29 @@ class TouchCoordinates {
     int rightTop;
     int leftBottom;
     int rightBottom;
-    int type;
 
-    TouchCoordinates(int lt, int rt, int lb, int rb, int type){
+    TouchCoordinates(int lt, int rt, int lb, int rb){
         this.leftTop = lt;
         this.rightTop = rt;
         this.leftBottom = lb;
         this.rightBottom = rb;
-        this.type = type;
     }
-
-
 }
 
-public class DrawingView extends View {
+enum colorPalette{
+    GREEN,
+    RED,
+    BLUE,
+    DARK,
+    CYAN,
+    MAGENTA,
+    YELLOW,
+    GRAY,
+    DKGRAY,
+    LTGRAY
+}
+
+public class DrawingView extends View{
     private static final float touch = 4;
     private float mX, mY;
     private Path mPath;
@@ -42,9 +51,11 @@ public class DrawingView extends View {
     private Bitmap mBitmap;
     Paint paint = new Paint();
     private int drawingType;
+    public DrawMethod drawMeth;
 
     ArrayList<TouchCoordinates> touchC = new ArrayList<TouchCoordinates>();
-    ArrayList<TouchCoordinates> touchCtmp = new ArrayList<TouchCoordinates>();
+    ArrayList<Shape> shapeTmp = new ArrayList<Shape>();
+    ArrayList<Shape> shapes = new ArrayList<Shape>();
 
     int startX = -1;
     int startY = -1;
@@ -68,26 +79,23 @@ public class DrawingView extends View {
         paint.setStyle(Paint.Style.STROKE);
         paint.setStrokeJoin(Paint.Join.ROUND);
         paint.setStrokeCap(Paint.Cap.ROUND);
+        drawMeth = new DrawMethod(new DrawRect());
+        currentColor = Color.GREEN;
+        strokeWidth  = 5;
     }
 
-    public void init(int width, int height){
-        mBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
-        // initial color
-        currentColor = Color.GREEN;
-        // initial size
-        strokeWidth = 20;
-    }
 
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         paint.setStrokeWidth(strokeWidth);
         if(startX !=0 && startY !=0){
-            if(touchCtmp.size() != 0){
-                canvas.drawOval(startX, startY, endX, endY, paint);
-            }
-            for(int i=0; i< touchC.size(); i++){
-                switch (touchC.get(i).type){
+            drawTmpShape(shapeTmp, canvas);
+            for(int i=0; i< shapes.size(); i++){
+                TouchCoordinates tc = shapes.get(i).getTouchC();
+                paint.setStrokeWidth(shapes.get(i).getStrokeWidth());
+                canvas.drawRect(tc.leftTop, tc.leftBottom, tc.rightTop, tc.rightBottom, paint);
+                /* switch (shapes.get(i).getType()){
                     case 1:
                         paint.setColor(Color.rgb(i*15, i*150, i*84));
                         canvas.drawRect(touchC.get(i).leftTop, touchC.get(i).leftBottom, touchC.get(i).rightTop, touchC.get(i).rightBottom, paint);
@@ -98,7 +106,7 @@ public class DrawingView extends View {
                         break;
                     default:
                         break;
-                }
+                } */
             }
         }
     }
@@ -107,6 +115,19 @@ public class DrawingView extends View {
         if(touchC.size() !=0){
             touchC.remove(touchC.size() - 1);
             invalidate();
+        }
+    }
+    protected void drawTmpShape(ArrayList<Shape> shapeTmp, Canvas canvas){
+        if(shapeTmp.size() != 0){
+            /*switch (tp){
+                case 1:
+                    meth = new DrawMethod(new DrawRect());
+                case 2:
+                    meth = new DrawMethod(new DrawEllipse());
+                default:
+                    meth = new DrawLine(new DrawLine());
+            }*/
+            drawMeth.drawPaintImageTmp(canvas, shapeTmp);
         }
     }
 
@@ -119,18 +140,33 @@ public class DrawingView extends View {
         }
         if(event.getAction() == MotionEvent.ACTION_MOVE)
         {
-            TouchCoordinates touchC = new TouchCoordinates(startX, startY, endX, endY, drawingType);
+            /*if(drawingType !=3){
+                TouchCoordinates touchC = new TouchCoordinates(startX, startY, endX, endY, drawingType);
+                endX = (int)event.getX();
+                endY = (int)event.getY();
+                touchCtmp.add(touchC);
+            }*/
             endX = (int)event.getX();
             endY = (int)event.getY();
-            touchCtmp.add(touchC);
-
+            TouchCoordinates touchC = new TouchCoordinates(startX, startY, endX, endY);
+            Shape shape = new Shape(touchC , currentColor, strokeWidth, drawingType);
+            switch (drawingType){
+                case 1:
+                    drawMeth = new DrawMethod(new DrawRect());
+                case 2:
+                    drawMeth = new DrawMethod(new DrawEllipse());
+                default:
+                    break;
+            }
+            shapeTmp.add(shape);
             invalidate();
         }
         if (event.getAction() == MotionEvent.ACTION_UP)
         {
-            touchCtmp.clear();
-            TouchCoordinates tc= new TouchCoordinates(startX, endX, startY, endY, drawingType);
-            touchC.add(tc);
+            shapeTmp.clear();
+            TouchCoordinates tc= new TouchCoordinates(startX, endX, startY, endY);
+            Shape shape = new Shape(tc, currentColor, strokeWidth, drawingType);
+            shapes.add(shape);
             invalidate();
         }
         return true;
