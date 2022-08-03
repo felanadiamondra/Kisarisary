@@ -15,7 +15,7 @@ public class DrawMethod {
     public void drawPaintImage(Canvas canvas, Shape shape, Paint paint){
         drawShape.drawPaintImage(canvas, shape, paint);
     }
-    public void drawPaintImageTmp(Canvas canvas, ArrayList<Shape> shape){
-        drawShape.drawImageTemp(canvas, shape);
+    public void drawPaintImageTmp(int startX, int startY, int endX, int endY, Paint paint, Canvas canvas){
+        drawShape.drawPaintImageTmp(startX, startY, endX, endY, paint, canvas);
     }
 }

@@ -13,8 +13,9 @@ public class DrawRect implements DrawShape{
         paint.setStrokeWidth(rectWidth);
         canvas.drawRect(tc.leftTop, tc.leftBottom, tc.rightTop, tc.rightBottom, paint);
     }
-    @Override
-    public void drawImageTemp(Canvas canvas, ArrayList<Shape> shape) {
 
+    @Override
+    public void drawPaintImageTmp(int startX, int startY, int endX, int endY, Paint paint, Canvas canvas) {
+        canvas.drawRect(startX, startY, endX , endY, paint);
     }
 }

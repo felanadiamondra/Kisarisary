@@ -8,13 +8,14 @@ import java.util.ArrayList;
 public class DrawEllipse implements DrawShape{
     @Override
     public void drawPaintImage(Canvas canvas, Shape shape, Paint paint) {
-        int rectWidth = shape.getStrokeWidth();
+        int ovalWidth = shape.getStrokeWidth();
         TouchCoordinates tc = shape.getTouchC();
-        paint.setStrokeWidth(rectWidth);
+        paint.setStrokeWidth(ovalWidth);
         canvas.drawOval(tc.leftTop, tc.leftBottom, tc.rightTop, tc.rightBottom, paint);
     }
-    @Override
-    public void drawImageTemp(Canvas canvas, ArrayList<Shape> shape) {
 
+    @Override
+    public void drawPaintImageTmp(int startX, int startY, int endX, int endY, Paint paint, Canvas canvas) {
+        canvas.drawOval(startX, startY, endX , endY, paint);
     }
 }

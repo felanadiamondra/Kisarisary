@@ -72,6 +72,9 @@ public class MainActivity extends AppCompatActivity {
         btnDrawCircle.setOnClickListener(v -> drawingView.setCurrentDrawingType(
                 DrawingView.DRAWING_TYPE_ELLIPSE));
 
+        btnDrawLine.setOnClickListener(v -> drawingView.setCurrentDrawingType(
+                DrawingView.DRAWING_TYPE_LINE));
+
         btnUndo.setOnClickListener(v -> drawingView.undo());
 
 

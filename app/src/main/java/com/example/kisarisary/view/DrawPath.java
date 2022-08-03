@@ -8,11 +8,15 @@ import java.util.ArrayList;
 public class DrawPath implements DrawShape{
     @Override
     public void drawPaintImage(Canvas canvas, Shape shape, Paint paint) {
-
+        int lineWidth = shape.getStrokeWidth();
+        TouchCoordinates tc = shape.getTouchC();
+        paint.setStrokeWidth(lineWidth);
+        canvas.drawLine(tc.leftTop, tc.leftBottom, tc.rightTop, tc.rightBottom, paint);
     }
 
     @Override
-    public void drawImageTemp(Canvas canvas, ArrayList<Shape> shape) {
-
+    public void drawPaintImageTmp(int startX, int startY, int endX, int endY, Paint paint, Canvas canvas) {
+        canvas.drawLine(startX, startY, endX , endY, paint);
     }
+
 }

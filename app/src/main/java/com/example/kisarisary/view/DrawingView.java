@@ -27,33 +27,15 @@ class TouchCoordinates {
         this.rightBottom = rb;
     }
 }
-
-enum colorPalette{
-    GREEN,
-    RED,
-    BLUE,
-    DARK,
-    CYAN,
-    MAGENTA,
-    YELLOW,
-    GRAY,
-    DKGRAY,
-    LTGRAY
-}
-
 public class DrawingView extends View{
     private static final float touch = 4;
     private float mX, mY;
     private Path mPath;
-    private ArrayList<Stroke> paths = new ArrayList<>();
+    Paint paint = new Paint();
     private int currentColor;
     private int strokeWidth;
-    private Bitmap mBitmap;
-    Paint paint = new Paint();
     private int drawingType;
     public DrawMethod drawMeth;
-
-    ArrayList<TouchCoordinates> touchC = new ArrayList<TouchCoordinates>();
     ArrayList<Shape> shapeTmp = new ArrayList<Shape>();
     ArrayList<Shape> shapes = new ArrayList<Shape>();
 
@@ -91,7 +73,9 @@ public class DrawingView extends View{
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         if(startX !=0 && startY !=0){
-            drawTmpShape(shapeTmp, canvas);
+            if(shapeTmp.size() != 0){
+                drawTmpShape(shapeTmp, canvas);
+            }
             for(int i=0; i< shapes.size(); i++){
                 switch (shapes.get(i).getType()){
                     case 1:
@@ -100,8 +84,8 @@ public class DrawingView extends View{
                     case 2:
                         drawMeth = new DrawMethod(new DrawEllipse());
                         break;
-                    default:
-                        break;
+                    case 3:
+                        drawMeth = new DrawMethod(new DrawPath());
                 }
                 drawMeth.drawPaintImage(canvas, shapes.get(i), paint);
             }
@@ -115,9 +99,22 @@ public class DrawingView extends View{
         }
     }
     protected void drawTmpShape(ArrayList<Shape> shapeTmp, Canvas canvas){
-        if(shapeTmp.size() != 0){
-            drawMeth.drawPaintImageTmp(canvas, shapeTmp);
+        Shape shape = shapeTmp.get(0);
+        TouchCoordinates touchC = shape.getTouchC();
+        System.out.println("Type here" + shape.getType());
+        switch (shape.getType()){
+            case 1:
+                drawMeth = new DrawMethod(new DrawRect());
+                break;
+            case 2:
+                drawMeth = new DrawMethod(new DrawEllipse());
+                break;
+            case 3 :
+                drawMeth = new DrawMethod(new DrawPath());
+                break;
         }
+        drawMeth.drawPaintImageTmp(startX, startY, endX , endY, paint, canvas);
+        // canvas.drawRect(startX, startY, endX , endY, paint);
     }
 
     @Override
@@ -129,12 +126,6 @@ public class DrawingView extends View{
         }
         if(event.getAction() == MotionEvent.ACTION_MOVE)
         {
-            /*if(drawingType !=3){
-                TouchCoordinates touchC = new TouchCoordinates(startX, startY, endX, endY, drawingType);
-                endX = (int)event.getX();
-                endY = (int)event.getY();
-                touchCtmp.add(touchC);
-            }*/
             endX = (int)event.getX();
             endY = (int)event.getY();
             TouchCoordinates touchC = new TouchCoordinates(startX, startY, endX, endY);
@@ -148,6 +139,7 @@ public class DrawingView extends View{
             TouchCoordinates tc= new TouchCoordinates(startX, endX, startY, endY);
             Shape shape = new Shape(tc, currentColor, strokeWidth, drawingType);
             shapes.add(shape);
+
             invalidate();
         }
         return true;
@@ -155,6 +147,7 @@ public class DrawingView extends View{
 
     public void setCurrentDrawingType(int dt){
         this.drawingType = dt;
+        System.out.println("Type here" + drawingType);
     }
 
     public void setCurrentStrokeWidth(int sw){
