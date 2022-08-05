@@ -61,7 +61,7 @@ public class DrawingView extends View{
         currentColor = Color.GREEN;
         strokeWidth  = 5;
         drawingType = 1;
-        paint.setColor(Color.GREEN);
+        paint.setColor(currentColor);
         paint.setStyle(Paint.Style.STROKE);
         paint.setStrokeJoin(Paint.Join.ROUND);
         paint.setStrokeCap(Paint.Cap.ROUND);
@@ -74,6 +74,7 @@ public class DrawingView extends View{
         super.onDraw(canvas);
         if(startX !=0 && startY !=0){
             if(shapeTmp.size() != 0){
+                paint.setColor(shapeTmp.get(0).getColor());
                 drawTmpShape(shapeTmp, canvas);
             }
             for(int i=0; i< shapes.size(); i++){
@@ -86,6 +87,7 @@ public class DrawingView extends View{
                         break;
                     case 3:
                         drawMeth = new DrawMethod(new DrawPath());
+                        break;
                 }
                 drawMeth.drawPaintImage(canvas, shapes.get(i), paint);
             }
@@ -152,5 +154,9 @@ public class DrawingView extends View{
 
     public void setCurrentStrokeWidth(int sw){
         this.strokeWidth = sw;
+    }
+
+    public void setCurrentColor(int color){
+        this.currentColor = color;
     }
 }

@@ -11,6 +11,7 @@ public class DrawEllipse implements DrawShape{
         int ovalWidth = shape.getStrokeWidth();
         TouchCoordinates tc = shape.getTouchC();
         paint.setStrokeWidth(ovalWidth);
+        paint.setColor(shape.getColor());
         canvas.drawOval(tc.leftTop, tc.leftBottom, tc.rightTop, tc.rightBottom, paint);
     }
 

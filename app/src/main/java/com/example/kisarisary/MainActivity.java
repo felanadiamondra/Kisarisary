@@ -7,6 +7,8 @@ import android.app.AlertDialog;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -16,6 +18,10 @@ import com.example.kisarisary.view.DrawingView;
 public class MainActivity extends AppCompatActivity {
 
     private DrawingView drawingView;
+    private Color color;
+    private int red = 0;
+    private int blue = 0;
+    private int green = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
                 cl.setBackgroundResource(R.drawable.colorfulwood);
                 break;
             default:
-                cl.setBackgroundColor(Color.RED);
+                cl.setBackgroundColor(Color.WHITE);
         }
     }
 
@@ -45,7 +51,6 @@ public class MainActivity extends AppCompatActivity {
         ImageButton btnUndo = (ImageButton) findViewById(R.id.btnUndo);
         SeekBar seekbar =  (SeekBar) findViewById(R.id.penSize);
         TextView penSizeValue = (TextView) findViewById(R.id.penSizeValue);
-        TextView text = (TextView) findViewById(R.id.textHere);
 
         seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
@@ -66,6 +71,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+
         btnDrawRect.setOnClickListener(v -> drawingView.setCurrentDrawingType(
                 DrawingView.DRAWING_TYPE_RECT));
 
@@ -77,18 +83,81 @@ public class MainActivity extends AppCompatActivity {
 
         btnUndo.setOnClickListener(v -> drawingView.undo());
 
-
-
     }
 
     public void btnShowColorDialog(View viewSource){
+        red = 0;
+        green = 0;
+        blue = 0;
         final AlertDialog.Builder alert = new AlertDialog.Builder(MainActivity.this);
         View mview = getLayoutInflater().inflate(R.layout.custom_color, null);
         alert.setView(mview);
         final AlertDialog alertDialog= alert.create();
         alertDialog.setCanceledOnTouchOutside(true);
+        SeekBar seekBarRed = (SeekBar) mview.findViewById(R.id.seekBarRed);
+        SeekBar seekBarGreen = (SeekBar) mview.findViewById(R.id.seekBarGreen);
+        SeekBar seekBarBlue = (SeekBar) mview.findViewById(R.id.seekBarBlue);
+        View viewColor = (View) mview.findViewById(R.id.viewColor);
+        Button button = (Button) mview.findViewById(R.id.buttonColor);
         // alertDialog.dismiss();
         alertDialog.show();
-    }
+        viewColor.setBackgroundColor(Color.rgb(red, green, blue));
+        seekBarRed.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                red = progress;
+                viewColor.setBackgroundColor(Color.rgb(red, green, blue));
+            }
 
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+
+        seekBarGreen.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                green = progress;
+                viewColor.setBackgroundColor(Color.rgb(red, green, blue));
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+        seekBarBlue.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                blue = progress;
+                viewColor.setBackgroundColor(Color.rgb(red, green, blue));
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+
+        button.setOnClickListener(v ->{
+            drawingView.setCurrentColor(Color.rgb(red, green, blue));
+            alertDialog.dismiss();
+        });
+    }
 }
