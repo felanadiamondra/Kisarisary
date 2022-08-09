@@ -49,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
         ImageButton btnDrawCircle = (ImageButton) findViewById(R.id.btnDrawCircle);
         ImageButton btnDrawRect = (ImageButton) findViewById(R.id.btnDrawRect);
         ImageButton btnUndo = (ImageButton) findViewById(R.id.btnUndo);
+        ImageButton btnPaint = (ImageButton) findViewById(R.id.btnPaint);
         SeekBar seekbar =  (SeekBar) findViewById(R.id.penSize);
         TextView penSizeValue = (TextView) findViewById(R.id.penSizeValue);
 
@@ -82,6 +83,8 @@ public class MainActivity extends AppCompatActivity {
                 DrawingView.DRAWING_TYPE_LINE));
 
         btnUndo.setOnClickListener(v -> drawingView.undo());
+
+        btnPaint.setOnClickListener(v -> drawingView.setPainting());
 
     }
 

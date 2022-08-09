@@ -11,8 +11,14 @@ public class DrawRect implements DrawShape{
         int rectWidth = shape.getStrokeWidth();
         TouchCoordinates tc = shape.getTouchC();
         paint.setStrokeWidth(rectWidth);
-        paint.setColor(shape.getColor());
+        paint.setColor(shape.getStrokeColor());
+       // paint.setStyle(Paint.Style.STROKE);
         canvas.drawRect(tc.leftTop, tc.leftBottom, tc.rightTop, tc.rightBottom, paint);
+        if(shape.getColor() != 0){
+            paint.setStyle(Paint.Style.FILL);
+            paint.setColor(shape.getColor());
+            canvas.drawRect(tc.leftTop, tc.leftBottom, tc.rightTop, tc.rightBottom, paint);
+        }
     }
 
     @Override

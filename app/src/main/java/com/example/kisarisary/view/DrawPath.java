@@ -11,7 +11,7 @@ public class DrawPath implements DrawShape{
         int lineWidth = shape.getStrokeWidth();
         TouchCoordinates tc = shape.getTouchC();
         paint.setStrokeWidth(lineWidth);
-        paint.setColor(shape.getColor());
+        paint.setColor(shape.getStrokeColor());
         canvas.drawLine(tc.leftTop, tc.leftBottom, tc.rightTop, tc.rightBottom, paint);
     }
 
