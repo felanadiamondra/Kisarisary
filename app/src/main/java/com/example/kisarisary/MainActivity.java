@@ -37,10 +37,15 @@ public class MainActivity extends AppCompatActivity {
         ConstraintLayout cl= (ConstraintLayout) findViewById(R.id.launchMain);
         switch (bgImage){
             case 1:
+                cl.setBackgroundColor(Color.WHITE);
+                break;
+            case 2:
                 cl.setBackgroundResource(R.drawable.colorfulwood);
                 break;
             default:
-                cl.setBackgroundColor(Color.WHITE);
+                cl.setBackgroundResource(R.drawable.grass);
+                break;
+
         }
     }
 

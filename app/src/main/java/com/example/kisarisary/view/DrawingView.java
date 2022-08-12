@@ -125,12 +125,9 @@ public class DrawingView extends View{
     public boolean onTouchEvent(MotionEvent event) {
         if (event.getAction() == MotionEvent.ACTION_DOWN)
         {
-            System.out.println(isPaintActive);
             if(isPaintActive){
                 touchPaintX = (int) event.getX();
                 touchPaintY = (int) event.getY();
-                System.out.println("Touch X : " + touchPaintX);
-                System.out.println("Touch Y : " + touchPaintY);
                 paintShapeTouched();
                 invalidate();
             }
@@ -138,7 +135,6 @@ public class DrawingView extends View{
                 startX = (int)event.getX();
                 startY = (int)event.getY();
             }
-
         }
         if(event.getAction() == MotionEvent.ACTION_MOVE)
         {
@@ -169,18 +165,15 @@ public class DrawingView extends View{
     }
 
     public void paintShapeTouched(){
-        System.out.println("Touching is active now");
         for(int i=shapes.size()-1; i >= 0; i--){
             TouchCoordinates tc = shapes.get(i).getTouchC();
 
             if( touchPaintX <= tc.rightTop
                     && touchPaintX >= tc.leftTop
                     && touchPaintY <= tc.rightBottom
-                    && touchPaintY >= tc.leftBottom){
-                System.out.println("Yes touched");
+                    && touchPaintY >= tc.leftBottom) {
                 shapes.get(i).setColor(currentColor);
             }
-
         }
     }
 

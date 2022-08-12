@@ -23,7 +23,15 @@ public class LaunchActivity extends AppCompatActivity {
         startActivity(drawingView);
     }
 
-    public void setColorfulBackground(View viewSource){
+    public void setDefaultBackground(View viewSource){
         this.bgImage = 1;
+    }
+
+    public void setWoodBackground(View viewSource){
+        this.bgImage =2;
+    }
+
+    public void setGrassBackground(View viewSource){
+        this.bgImage = 3;
     }
 }

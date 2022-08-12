@@ -18,58 +18,105 @@
             android:id="@+id/textView2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Choose a background" />
+            android:foregroundTint="#009688"
+            android:gravity="center"
+            android:text="Choose a background"
+            android:textSize="26sp"
+            android:textStyle="bold" />
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="114dp"
+            android:layout_height="139dp"
             android:gravity="center"
             android:orientation="horizontal">
 
-            <ImageButton
-                android:id="@+id/imageButton2"
-                android:layout_width="193dp"
-                android:layout_height="146dp"
+            <LinearLayout
+                android:layout_width="120dp"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:adjustViewBounds="true"
-                app:srcCompat="@drawable/blanc" />
+                android:orientation="vertical">
+
+                <ImageButton
+                    android:id="@+id/defaultBgBtn"
+                    android:layout_width="120dp"
+                    android:layout_height="120dp"
+                    android:layout_weight="1"
+                    android:baselineAlignBottom="false"
+                    android:onClick="setDefaultBackground"
+                    app:srcCompat="@drawable/blanc" />
+
+                <TextView
+                    android:id="@+id/textView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Default" />
+            </LinearLayout>
 
             <Space
-                android:layout_width="20dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1" />
 
-            <ImageButton
-                android:id="@+id/colorfulBg"
-                android:layout_width="193dp"
-                android:layout_height="142dp"
+            <LinearLayout
+                android:layout_width="120dp"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:adjustViewBounds="true"
-                android:background="@drawable/colorfulwood"
-                android:onClick="setColorfulBackground"
-                app:srcCompat="@drawable/colorfulwood" />
+                android:orientation="vertical">
+
+                <ImageButton
+                    android:id="@+id/imageButton2"
+                    android:layout_width="120dp"
+                    android:layout_height="120dp"
+                    android:layout_weight="1"
+                    android:adjustViewBounds="false"
+                    android:background="#009688"
+                    app:srcCompat="@drawable/colorfulwood" />
+
+                <TextView
+                    android:id="@+id/textView3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Colorfull wood" />
+            </LinearLayout>
 
             <Space
-                android:layout_width="20dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1" />
 
-            <ImageButton
-                android:id="@+id/imageButton"
-                android:layout_width="193dp"
-                android:layout_height="142dp"
+            <LinearLayout
+                android:layout_width="120dp"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:adjustViewBounds="true"
-                android:background="@drawable/grass"
-                app:srcCompat="@drawable/grass" />
+                android:orientation="vertical">
+
+                <ImageButton
+                    android:id="@+id/grassBgBtn"
+                    android:layout_width="120dp"
+                    android:layout_height="120dp"
+                    android:layout_weight="1"
+                    android:onClick="setGrassBackground"
+                    app:srcCompat="@drawable/grass" />
+
+                <TextView
+                    android:id="@+id/textView4"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Grass" />
+            </LinearLayout>
+
         </LinearLayout>
 
         <Button
             android:id="@+id/button2"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="54dp"
             android:onClick="launchPaint"
-            android:text="LANCER" />
+            android:text="LAUNCH" />
+
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
