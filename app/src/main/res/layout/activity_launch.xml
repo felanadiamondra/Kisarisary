@@ -71,6 +71,7 @@
                     android:layout_weight="1"
                     android:adjustViewBounds="false"
                     android:background="#009688"
+                    android:onClick="setWoodBackground"
                     app:srcCompat="@drawable/colorfulwood" />
 
                 <TextView
